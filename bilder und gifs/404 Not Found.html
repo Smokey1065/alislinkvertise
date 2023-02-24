@@ -1,0 +1,489 @@
+
+<!-- saved from url=(0034)https://www.youtube.com/@Dr.Flashy -->
+<html lang="de-DE" dir="ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>404 Not Found</title><style nonce="RQw0HHuLup4HJraIL1LDmg">*{margin:0;padding:0;border:0}html,body{height:100%;}</style><link rel="shortcut icon" href="https://www.youtube.com/img/favicon.ico" type="image/x-icon"><link rel="icon" href="https://www.youtube.com/img/favicon_32.png" sizes="32x32"><link rel="icon" href="https://www.youtube.com/img/favicon_48.png" sizes="48x48"><link rel="icon" href="https://www.youtube.com/img/favicon_96.png" sizes="96x96"><link rel="icon" href="https://www.youtube.com/img/favicon_144.png" sizes="144x144"><script async="" src="chrome-extension://kmhkepipobnjllejbafajoemahjejdcm/scripts/instana/eum.min.js" crossorigin="anonymous"></script><script src="chrome-extension://gighmmpiobklfepjocnamgkkbiglidom/purify.min.js"></script><script>(function (toContentScriptEventName, fromContentScriptEventName) {
+    if (XMLHttpRequest.wrapped === true) {
+      return;
+    }
+    // used to decode all encoded HTML (convert '&' to &amp;)
+    const parseElem = document.createElement('textarea');
+
+    const parseChannelName = function (channelNameToParse) {
+      function fixedEncodeURIComponent(str) {
+        return encodeURIComponent(str).replace(/[!'()*]/g, c => `%${c.charCodeAt(0).toString(16)}`);
+      }
+      parseElem.innerHTML = DOMPurify.sanitize(channelNameToParse);
+      const channelName = parseElem.innerText;
+      // Remove whitespace, and encode
+      return fixedEncodeURIComponent(channelName.replace(/\s/g, ''));
+    };
+    // Parse a URL. Based upon http://blog.stevenlevithan.com/archives/parseuri
+    // parseUri 1.2.2, (c) Steven Levithan <stevenlevithan.com>, MIT License
+    // Inputs: url: the URL you want to parse
+    // Outputs: object containing all parts of |url| as attributes
+    const parseUriRegEx = /^(([^:]+(?::|$))(?:(?:\w+:)?\/\/)?(?:[^:@/]*(?::[^:@/]*)?@)?(([^:/?#]*)(?::(\d*))?))((?:[^?#/]*\/)*[^?#]*)(\?[^#]*)?(#.*)?/;
+    const parseUri = function (theURL) {
+      const matches = parseUriRegEx.exec(theURL);
+
+      // The key values are identical to the JS location object values for that key
+      const keys = ['href', 'origin', 'protocol', 'host', 'hostname', 'port',
+        'pathname', 'search', 'hash'];
+      const uri = {};
+      for (let i = 0; (matches && i < keys.length); i++) {
+        uri[keys[i]] = matches[i] || '';
+      }
+      return uri;
+    };
+
+    // Parses the search part of a URL into a key: value object.
+    // e.g., ?hello=world&ext=adblock would become {hello:"world", ext:"adblock"}
+    // Inputs: search: the search query of a URL. Must have &-separated values.
+    parseUri.parseSearch = function parseSearch(searchQuery) {
+      const params = {};
+      let search = searchQuery;
+      let pair;
+
+      // Fails if a key exists twice (e.g., ?a=foo&a=bar would return {a:"bar"}
+      search = search.substring(search.indexOf('?') + 1).split('&');
+
+      for (let i = 0; i < search.length; i++) {
+        pair = search[i].split('=');
+        if (pair[0] && !pair[1]) {
+          pair[1] = '';
+        }
+        const pairKey = decodeURIComponent(pair[0]);
+        const pairValue = decodeURIComponent(pair[1]);
+        if (pairKey && pairValue !== 'undefined') {
+          params[pairKey] = pairValue;
+        }
+      }
+      return params;
+    };
+
+    // Strip third+ level domain names from the domain and return the result.
+    // Inputs: domain: the domain that should be parsed
+    // keepDot: true if trailing dots should be preserved in the domain
+    // Returns: the parsed domain
+    parseUri.secondLevelDomainOnly = function stripThirdPlusLevelDomain(domain, keepDot) {
+      if (domain) {
+        const match = domain.match(/([^.]+\.(?:co\.)?[^.]+)\.?$/) || [domain, domain];
+        return match[keepDot ? 0 : 1].toLowerCase();
+      }
+
+      return domain;
+    };
+
+    function updateURLWrapped(channelName) {
+      if (window.location.pathname !== '/watch') {
+        return;
+      }
+      if (channelName) {
+        const parsedChannelName = parseChannelName(channelName);
+        let updatedUrl;
+        let [baseUrl] = window.location.href.split('&ab_channel');
+        [baseUrl] = baseUrl.split('?ab_channel');
+        if (parseUri(window.location.href).search.indexOf('?') === -1) {
+          updatedUrl = `${baseUrl}?&ab_channel=${parsedChannelName}`;
+        } else {
+          updatedUrl = `${baseUrl}&ab_channel=${parsedChannelName}`;
+        }
+        // Add the name of the channel to the end of URL
+        window.history.replaceState(null, null, updatedUrl);
+      }
+    }
+
+
+    function processVideoData(data) {
+      if (
+        data
+        && data.videoDetails
+        && data.videoDetails.author
+      ) {
+        const { author, videoId } = data.videoDetails;
+        updateURLWrapped(author);
+        window.postMessage({
+          eventName: toContentScriptEventName,
+          channelName: String(author),
+          videoId,
+        }, '*');
+      }
+    }
+
+    let currentDescriptor = Object.getOwnPropertyDescriptor(window, 'ytInitialPlayerResponse');
+    if (currentDescriptor) {
+      const descOneSetOrigin = currentDescriptor.set;
+      currentDescriptor.set = function set(newValue) {
+        descOneSetOrigin(newValue);
+        processVideoData(newValue);
+      };
+    } else {
+      let ytInitialPlayerResponseWrapped;
+      currentDescriptor = {
+        configurable: true,
+        get() {
+          return ytInitialPlayerResponseWrapped;
+        },
+        set(newValue) {
+          ytInitialPlayerResponseWrapped = newValue;
+          processVideoData(newValue);
+        },
+      };
+    }
+    Object.defineProperty(window, 'ytInitialPlayerResponse', currentDescriptor);
+
+    const theObjectDefineProperty = Object.defineProperty;
+    Object.defineProperty = function defineProperties(obj, prop, descriptor) {
+      // Prevent YT specific snippets from clobbering or overriding
+      if (prop === 'ytInitialPlayerResponse') {
+        return;
+      }
+      theObjectDefineProperty(obj, prop, descriptor);
+    };
+
+
+    document.addEventListener('yt-navigate-finish', (event) => {
+      if (event
+        && event.detail
+        && event.detail.response
+        && event.detail.response.playerResponse
+        && event.detail.response.playerResponse.videoDetails
+        && event.detail.response.playerResponse.videoDetails.author
+      ) {
+        const { author, videoId } = event.detail.response.playerResponse.videoDetails;
+        updateURLWrapped(author);
+        window.postMessage({
+          eventName: toContentScriptEventName,
+          channelName: String(author),
+          videoId,
+        }, '*');
+      }
+    });
+
+    const XHR = XMLHttpRequest.prototype;
+    XMLHttpRequest.wrapped = true;
+    const mySend = XHR.send;
+    const myOpen = XHR.open;
+    XHR.open = function theOpen(...args) {
+      if (args.length > 1) {
+        [, this.url] = args;
+      } else {
+        this.url = '';
+      }
+      return myOpen.apply(this, args);
+    };
+    XHR.send = function theSend(...args) {
+      if (this.url.includes('https://www.youtube.com/watch?v=')) {
+        this.addEventListener('load', function eventHandler() {
+          try {
+            const responseArray = JSON.parse(this.response);
+            if (responseArray) {
+              for (const item in responseArray) {
+                if (
+                  responseArray[item]
+                  && responseArray[item].playerResponse
+                  && responseArray[item].playerResponse.videoDetails
+                  && responseArray[item].playerResponse.videoDetails.author
+                ) {
+                  const { author, videoId } = responseArray[item].playerResponse.videoDetails;
+                  updateURLWrapped(author);
+                  window.postMessage({
+                    eventName: toContentScriptEventName,
+                    channelName: String(author),
+                    videoId,
+                  }, '*');
+                  return;
+                }
+              }
+            }
+          } catch (ex) {
+            // eslint-disable-next-line no-console
+            console.log('ex', ex);
+          }
+        });
+      }
+      return mySend.apply(this, args);
+    };
+
+    const postRequestCheck = function (response) {
+      if (response && response.url && response.url.startsWith('https://www.youtube.com/youtubei/v1/player')) {
+        response.clone().json().then((respObj) => {
+          if (respObj && respObj.videoDetails) {
+            const { author, videoId } = respObj.videoDetails;
+            updateURLWrapped(author);
+            window.postMessage({
+              eventName: toContentScriptEventName,
+              channelName: String(author),
+              videoId,
+            }, '*');
+          }
+        });
+      }
+    };
+
+    const myFetch = window.fetch;
+    window.fetch = function theFetch(...args) {
+      return new Promise((resolve, reject) => {
+        myFetch.apply(this, args)
+          .then((response) => {
+            postRequestCheck(response);
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    };
+
+    // process the event messages from the content script
+    window.addEventListener('message', (event) => {
+      if (
+        event
+        && event.data
+        && event.data.channelName
+        && (event.data.eventName === fromContentScriptEventName
+          || event.data.eventName === toContentScriptEventName)) {
+        updateURLWrapped(event.data.channelName);
+      }
+      if (
+        event
+        && event.data
+        && event.data.removeChannelName
+        && event.data.eventName === fromContentScriptEventName
+      ) {
+        // remove the query string from the URL
+        const params = parseUri.parseSearch(window.location.search);
+        const queryString = Object.keys(params).reduce((prev, key, i) => {
+          if (key !== 'ab_channel') {
+            return `${prev}${i !== 0 ? '&' : ''}${key}=${params[key]}`;
+          }
+          return prev;
+        }, '');
+        window.history.replaceState(null, null, `${window.location.origin}${window.location.pathname}?${queryString}`);
+      }
+    });
+  })('ab-yt-channel-name-o40krt3id19', 'yt-ab-channel-name-dy2583qalt8');</script><style type="text/css">@font-face { font-family: Roboto; src: url("chrome-extension://mcgbeeipkmelnpldkobichboakdfaeon/css/Roboto-Regular.ttf"); }</style></head><body><iframe style="display:block;border:0;" src="./404 Not Found_files/error.html" width="100%" height="100%" frameborder="\" scrolling="no"></iframe><script>
+		function returnCommentSymbol(language = "javascript") {
+			const languageObject = {
+				bat: "@REM",
+				c: "//",
+				csharp: "//",
+				cpp: "//",
+				closure: ";;",
+				coffeescript: "#",
+				dockercompose: "#",
+				css: "/*DELIMITER*/",
+				"cuda-cpp": "//",
+				dart: "//",
+				diff: "#",
+				dockerfile: "#",
+				fsharp: "//",
+				"git-commit": "//",
+				"git-rebase": "#",
+				go: "//",
+				groovy: "//",
+				handlebars: "{{!--DELIMITER--}}",
+				hlsl: "//",
+				html: "<!--DELIMITER-->",
+				ignore: "#",
+				ini: ";",
+				java: "//",
+				javascript: "//",
+				javascriptreact: "//",
+				json: "//",
+				jsonc: "//",
+				julia: "#",
+				latex: "%",
+				less: "//",
+				lua: "--",
+				makefile: "#",
+				markdown: "<!--DELIMITER-->",
+				"objective-c": "//",
+				"objective-cpp": "//",
+				perl: "#",
+				perl6: "#",
+				php: "<!--DELIMITER-->",
+				powershell: "#",
+				properties: ";",
+				jade: "//-",
+				python: "#",
+				r: "#",
+				razor: "<!--DELIMITER-->",
+				restructuredtext: "..",
+				ruby: "#",
+				rust: "//",
+				scss: "//",
+				shaderlab: "//",
+				shellscript: "#",
+				sql: "--",
+				svg: "<!--DELIMITER-->",
+				swift: "//",
+				tex: "%",
+				typescript: "//",
+				typescriptreact: "//",
+				vb: "'",
+				xml: "<!--DELIMITER-->",
+				xsl: "<!--DELIMITER-->",
+				yaml: "#"
+			}
+			return languageObject[language].split("DELIMITER")
+		}
+		var savedChPos = 0
+		var returnedSuggestion = ''
+		let editor, doc, cursor, line, pos
+		pos = {line: 0, ch: 0}
+		var suggestionsStatus = false
+		var docLang = "python"
+		var suggestionDisplayed = false
+		var isReturningSuggestion = false
+		document.addEventListener("keydown", (event) => {
+		setTimeout(()=>{
+			editor = event.target.closest('.CodeMirror');
+			if (editor){
+				const codeEditor = editor.CodeMirror
+				if(!editor.classList.contains("added-tab-function")){
+					editor.classList.add("added-tab-function")
+					codeEditor.removeKeyMap("Tab")
+					codeEditor.setOption("extraKeys", {Tab: (cm)=>{
+
+						if(returnedSuggestion){
+							acceptTab(returnedSuggestion)
+						}
+						else{
+							cm.execCommand("defaultTab")
+						}
+					}})
+				}
+				doc = editor.CodeMirror.getDoc()
+				cursor = doc.getCursor()
+				line = doc.getLine(cursor.line)
+				pos = {line: cursor.line, ch: line.length}
+
+				if(cursor.ch > 0){
+					savedChPos = cursor.ch
+				}
+
+				const fileLang = doc.getMode().name
+				docLang = fileLang
+				const commentSymbol = returnCommentSymbol(fileLang)
+				if (event.key == "?"){
+					var lastLine = line
+					lastLine = lastLine.slice(0, savedChPos - 1)
+
+					if(lastLine.trim().startsWith(commentSymbol[0])){
+						lastLine += " "+fileLang
+						lastLine = lastLine.split(commentSymbol[0])[1]
+						window.postMessage({source: 'getQuery', payload: { data: lastLine } } )
+						isReturningSuggestion = true
+						displayGrey("\nBlackbox loading...")
+					}
+				}else if(event.key === "Enter" && suggestionsStatus && !isReturningSuggestion){
+					var query = doc.getRange({ line: Math.max(0,cursor.line-10), ch: 0 }, { line: cursor.line, ch: line.length })
+					window.postMessage({source: 'getSuggestion', payload: { data: query, language: docLang } } )
+					displayGrey("Blackbox loading...")
+				}else if(event.key === "ArrowRight" && returnedSuggestion){
+					acceptTab(returnedSuggestion)
+				}else if(event.key === "Enter" && isReturningSuggestion){
+					displayGrey("\nBlackbox loading...")
+				}else if(event.key === "Escape"){
+					displayGrey("")
+				}
+			}
+		}, 0)
+		})
+
+		function acceptTab(text){
+		if (suggestionDisplayed){
+			displayGrey("")
+			doc.replaceRange(text, pos)
+			returnedSuggestion = ""
+			updateSuggestionStatus(false)
+		}
+		}
+		function acceptSuggestion(text){
+			displayGrey("")
+			doc.replaceRange(text, pos)
+			returnedSuggestion = ""
+			updateSuggestionStatus(false)
+		}
+		function displayGrey(text){
+			if(!text){
+				document.querySelector(".blackbox-suggestion").remove()
+				return
+			}
+			var el = document.querySelector(".blackbox-suggestion")
+			if(!el){
+				el = document.createElement('span')
+				el.classList.add("blackbox-suggestion")
+				el.style = 'color:grey'
+				el.innerText = text
+			}
+			else{
+				el.innerText = text
+			}
+			
+			var lineIndex = pos.line;
+			editor.getElementsByClassName('CodeMirror-line')[lineIndex].appendChild(el)
+		}
+		function updateSuggestionStatus(s){
+			suggestionDisplayed = s
+			window.postMessage({source: 'updateSuggestionStatus', status: suggestionDisplayed, suggestion: returnedSuggestion})
+		}
+		window.addEventListener('message', (event)=>{
+		if (event.source !== window ) return
+		if (event.data.source == 'return'){
+			isReturningSuggestion = false
+			const formattedCode = formatCode(event.data.payload.data)
+			returnedSuggestion = formattedCode
+			displayGrey(formattedCode)
+			updateSuggestionStatus(true)
+		}
+		if(event.data.source == 'suggestReturn'){
+			returnedSuggestion = event.data.payload.data
+			displayGrey(event.data.payload.data)
+			updateSuggestionStatus(true)
+		}
+		if(event.data.source == 'suggestionsStatus'){
+			suggestionsStatus = event.data.payload.enabled
+		}
+		if(event.data.source == 'acceptSuggestion'){
+			
+			acceptSuggestion(event.data.suggestion)
+		}
+		})
+		document.addEventListener("keyup", function(){
+			returnedSuggestion = ""
+			updateSuggestionStatus(false)
+		})
+		function formatCode(data) {
+			if (Array.isArray(data)) {
+				var finalCode = ""
+				var pairs = []
+		
+				const commentSymbol = returnCommentSymbol(docLang)
+				data.forEach((codeArr, idx) => {
+					const code = codeArr[0]
+					var desc = codeArr[1]
+					const descArr = desc.split("\n")
+					var finalDesc = ""
+					descArr.forEach((descLine, idx) => {
+						const whiteSpace = descLine.search(/\S/)
+						if (commentSymbol.length < 2 || idx === 0) {
+							finalDesc += insert(descLine, whiteSpace, commentSymbol[0])
+						}
+						if (commentSymbol.length > 1 && idx === descArr.length - 1) {
+							finalDesc = finalDesc + commentSymbol[1] + "\n"
+						}
+					})
+		
+					finalCode += finalDesc + "\n\n" + code
+					pairs.push(finalCode)
+				})
+				return "\n"+pairs.join("\n")
+			}
+		
+			return "\n"+data
+		}
+		
+		function insert(str, index, value) {
+			return str.substr(0, index) + value + str.substr(index)
+		}
+	</script></body></html>
