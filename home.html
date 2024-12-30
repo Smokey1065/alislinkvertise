@@ -1,85 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LinkHomePage</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script
+      type="text/javascript"
+      src="https://identity.netlify.com/v1/netlify-identity-widget.js"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="js/script.js"></script>
-    
-
 
     <style>
+      .example {
+        padding: 20px;
+        color: wihte;
+      }
+      /* Extra small devices (phones, 600px and down) */
+      @media only screen and (max-width: 600px) {
         .example {
-          padding: 20px;
-          color: wihte;
+          background: red;
         }
-        /* Extra small devices (phones, 600px and down) */
-        @media only screen and (max-width: 600px) {
-          .example {background: red;}
+      }
+      /* Small devices (portrait tablets and large phones, 600px and up) */
+      @media only screen and (min-width: 600px) {
+        .example {
+          background: green;
         }
-        /* Small devices (portrait tablets and large phones, 600px and up) */
-        @media only screen and (min-width: 600px) {
-          .example {background: green;}
-        }
-        </style>
-
-          <!-- Uses a transparent header that draws on top of the layout's background -->
-      <style id="style1">
-        .demo-layout-transparent {
-          background: url('/img/space.jpg') center / cover;
-        }
-        .demo-layout-transparent .mdl-layout__header,
-        .demo-layout-transparent .mdl-layout__drawer-button {
-          /* This background is dark, so we set text to white. Use 87% black instead if
-            your background is light. */
-          color: white;
-        }
-      </style>	
-
-
-</head>
-    <body>
-      <main>
-        <img class="nasaimg" 
-        src="bilder und gifs/giphy.gif" 
-        alt="" 
-        width="200" 
-        height="200" 
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="animate__animated animate__fadeInDown">
+        <img
+          class="nasaimg"
+          src="bilder und gifs/ali.jpg"
+          alt=""
+          width="200"
+          height="200"
         />
-        
-        <div class="bio">
-          <h1 class="Ah">Flashy</h1>
-          <p>Meine Links</p>
-        </div> 
+      </div>
 
-        <a href="http://instagram.com/ali7_1076"><Button class="btn" id="in">Insta</Button></a>
-        <br>
-        <a href="http://tiktok.com/@dr.flashy"><Button class="btn" id="tt">Tiktok</Button></a>
-        <br>
-        <a href="http://https://www.youtube.com/channel/UChb_pIQRPFhoiCyTyCIVFSw"><Button class="btn">Youtube</Button></a>
+      <div class="bio">
+        <h2 class="animate__animated animate__flipInX" style="color: white">
+          ꍏ꒒ꀤ
+        </h2>
+        <h6 style="color: white" class="animate__animated animate__pulse">
+          Wilkommen auf meiner Linkervertise Seite!
+          <br />
+          ╰（‵□′）╯
+        </h6>
+        <p style="color: white; padding-top: 30px" class="">
+          <u>Meine Links</u>
+        </p>
+      </div>
 
-        <h3 class="mh">Meine Hobby's</h3>
+      <div class="animate__animated animate__fadeIn">
+        <div class="socialmediabuttons">
+          <button
+            class="comic-button-tiktok"
+            onclick="tiktok()"
+            style="padding-right: 60px"
+          >
+            <img src="/bilder und gifs/tiktok-icon.png" alt="" width="40"
+            style="padding-right: 10px" " />Tik Tok
+          </button>
+        </div>
+      </div>
+      <div class="animate__animated animate__fadeIn">
+        <div class="socialmediabuttons">
+          <button
+            class="comic-button-yt"
+            onclick="youtube()"
+            style="padding-left: 0px"
+          >
+            <img
+              src="/bilder und gifs/youtube-icon.png"
+              alt=""
+              width="40px"
+              style="padding-right: 10px"
+            />Youtube
+          </button>
+        </div>
+      </div>
+      <div class="animate__animated animate__fadeIn">
+        <div class="socialmediabuttons">
+          <button
+            class="comic-button-github"
+            style="padding-right: 60px"
+            onclick="github()"
+          >
+            <img
+              src="/bilder und gifs/github-icon.png"
+              alt=""
+              width="50"
+              style="padding-right: 10px"
+            />Github
+          </button>
+        </div>
+      </div>
+      <div class="animate__animated animate__fadeIn">
+        <div class="socialmediabuttons">
+          <button
+            class="comic-button-snapchat"
+            style="padding-right: 40px"
+            onclick="snapchat()"
+          >
+            <img
+              src="/bilder und gifs/snapchat-icon.png"
+              alt=""
+              width="50"
+            />Snapchat
+          </button>
+        </div>
+      </div>
+    </main>
 
-        <section class="Hobby">
-
-          <ul>
-            <li>Fußball</li>
-            <li>VolleyBall</li>
-            <li>Coding</li>
-            <li>Zocken</li>
-          </ul>
-
-        </section>
-      
-
-      </main>
-    </body>
+    <script src="js/script.js"></script>
+  </body>
 </html>

@@ -1,76 +1,154 @@
 html {
-	height: 100%;
-	margin: 0;
-	overflow: visible;
+  height: 100%;
+  margin: 0;
+  overflow: visible;
 }
 
 body {
-	font-family: sans-serif;
-	background-image: url(https://wallpaperaccess.com/full/5662804.jpg);
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-attachment: fixed;
-	
+  font-family: sans-serif;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-color: #1a1918;
 }
 
 main {
-	display: flex;
-    flex-direction: column;
-	max-width: 300px;
-	margin: 50px auto ;
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  margin: 50px auto;
 }
 
 .bio {
-	text-align: center;
-	color: black;
+  text-align: center;
+  color: black;
 }
 
 .nasaimg {
-	border-radius: 50%;
-	margin: auto;
-	display: block;
+  border-radius: 50%;
+  margin: auto;
+  display: block;
 }
 
-.btn {
-	padding: 17px 110px;
-	margin: 0 auto;
-	margin-bottom: 20px;
-	border-radius: 10px;
-	border: 0;
-	background-color: black;
-	letter-spacing: 1.5px;
-	font-size: 15px;
-	transition: all .3s ease;
-	box-shadow: black 0px 10px 0px 0px;
-	color: hsl(0, 0%, 100%);
-}
-   
-.btn:hover {
-	box-shadow: black 0px 7px 0px 0px;
-}
-   
-.btn:active {
-	background-color: white;
-	/*50, 168, 80*/
-	box-shadow: white 0px 0px 0px 0px;
-	transform: translateY(5px);
-	transition: 200ms;
+.socialmediabuttons {
+  padding-top: 40px;
+  display: flex;
+  flex-direction: column;
 }
 
-#tt {
-	padding-left: 125px;
+/* From Uiverse.io by Gautammsharma */
+.comic-button-tiktok {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #ff0050;
+  border: 2px solid #000;
+  border-radius: 10px;
+  box-shadow: 5px 5px 0px #000;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-#in {
-	padding-left: 135px;
+.comic-button-tiktok:hover {
+  background-color: #fff;
+  color: #000;
+  border: 2px solid #000;
+  box-shadow: 5px 5px 0px #00f2ea;
 }
 
-.Hobby {
-	color: white;
+.comic-button-tiktok:active {
+  background-color: grey;
+  box-shadow: none;
+  transform: translateY(4px);
 }
 
-.mh {
-	color: white;
+.comic-button-yt {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #c21408;
+  border: 2px solid #000;
+  border-radius: 10px;
+  box-shadow: 5px 5px 0px #000;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
+.comic-button-yt:hover {
+  background-color: #fff;
+  color: #c21408;
+  border: 2px solid #000;
+  box-shadow: 5px 5px 0px #c21408;
+}
 
+.comic-button-yt:active {
+  background-color: grey;
+  box-shadow: none;
+  transform: translateY(4px);
+}
+
+.comic-button-github {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #24292e;
+  border: 2px solid #000;
+  border-radius: 10px;
+  box-shadow: 5px 5px 0px #000;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.comic-button-github:hover {
+  background-color: #fff;
+  color: #2b3137;
+  border: 2px solid #000;
+  box-shadow: 5px 5px 0px #2dba4e;
+}
+
+.comic-button-github:active {
+  background-color: grey;
+  box-shadow: none;
+  transform: translateY(4px);
+}
+
+.comic-button-snapchat {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #c21408;
+  border: 2px solid #000;
+  border-radius: 10px;
+  box-shadow: 5px 5px 0px #000;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.comic-button-snapchat:hover {
+  background-color: #fff;
+  color: #020202;
+  border: 2px solid #000;
+  box-shadow: 5px 5px 0px #fffc00;
+}
+
+.comic-button-snapchat:active {
+  background-color: grey;
+  box-shadow: none;
+  transform: translateY(4px);
+}
