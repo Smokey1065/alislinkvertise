@@ -15,7 +15,7 @@ body {
 main {
   display: flex;
   flex-direction: column;
-  max-width: 300px;
+  max-width: 380px;
   margin: 50px auto;
 }
 
@@ -34,6 +34,7 @@ main {
   padding-top: 40px;
   display: flex;
   flex-direction: column;
+  text-align: center;
 }
 
 /* From Uiverse.io by Gautammsharma */
@@ -151,4 +152,13 @@ main {
   background-color: grey;
   box-shadow: none;
   transform: translateY(4px);
+}
+
+.discord-widget {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 5px 5px 0px #000;
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
 }
